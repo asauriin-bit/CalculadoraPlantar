@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plantar | Calculadora de pagos</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true"><span></span></div>
+          <p>Plantar</p>
+        </div>
+
+        <div class="intro-copy">
+          <p class="eyebrow">Cotizador comercial</p>
+          <h1 id="page-title">Corrida de pagos Plantar</h1>
+          <p>
+            Genera una propuesta clara y formal por unidad, con apartado, enganche,
+            financiamiento mensual y saldo a escrituración.
+          </p>
+        </div>
+
+        <div class="key-panel">
+          <div>
+            <span>Entrega base</span>
+            <strong>Diciembre 2027</strong>
+          </div>
+          <div>
+            <span>Extensión posible</span>
+            <strong>Hasta agosto 2028</strong>
+          </div>
+          <div>
+            <span>Aumento extendido</span>
+            <strong>1% mensual desde enero 2028</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="calculator" aria-label="Calculadora de pagos">
+        <form id="quote-form" class="quote-form">
+          <fieldset class="compact-filter">
+            <legend>Filtrar por modelo</legend>
+            <div class="segmented" role="radiogroup" aria-label="Filtro por modelo">
+              <label>
+                <input type="radio" name="modelFilter" value="all" checked />
+                <span>Todos</span>
+              </label>
+              <label>
+                <input type="radio" name="modelFilter" value="1R" />
+                <span>1 rec.</span>
+              </label>
+              <label>
+                <input type="radio" name="modelFilter" value="2R" />
+                <span>2 rec.</span>
+              </label>
+              <label>
+                <input type="radio" name="modelFilter" value="3R" />
+                <span>3 rec.</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="form-grid">
+            <label class="wide">
+              Unidad a cotizar
+              <select id="unit" name="unit"></select>
+            </label>
+
+            <label>
+              Escritura / entrega
+              <select id="closingMonth" name="closingMonth">
+                <option value="2027-12">Diciembre 2027</option>
+                <option value="2028-01">Enero 2028 (+1%)</option>
+                <option value="2028-02">Febrero 2028 (+2%)</option>
+                <option value="2028-03">Marzo 2028 (+3%)</option>
+                <option value="2028-04">Abril 2028 (+4%)</option>
+                <option value="2028-05">Mayo 2028 (+5%)</option>
+                <option value="2028-06">Junio 2028 (+6%)</option>
+                <option value="2028-07">Julio 2028 (+7%)</option>
+                <option value="2028-08">Agosto 2028 (+8%)</option>
+              </select>
+            </label>
+
+            <label>
+              Plan de aportación previa
+              <select id="preClosingPercent" name="preClosingPercent">
+                <option value="0.35" selected>35% antes de escriturar</option>
+                <option value="0.45">45% antes de escriturar · 2% desc.</option>
+                <option value="0.65">65% antes de escriturar · 4% desc.</option>
+                <option value="0.80">80% antes de escriturar · 10% desc.</option>
+              </select>
+            </label>
+
+            <label>
+              Enganche a aportar
+              <span class="input-unit">
+                <span>$</span>
+                <input id="downPaymentInput" name="downPayment" type="text" inputmode="numeric" value="350000" />
+                <span>MXN</span>
+              </span>
+              <small id="downPaymentHelp" class="field-note">Máximo permitido: $0 MXN</small>
+            </label>
+
+            <label>
+              Apartado
+              <select id="reservation" name="reservation">
+                <option value="10000">$10,000 MXN</option>
+                <option value="20000">$20,000 MXN</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="unit-details" id="unitDetails"></div>
+
+          <section class="investment-panel" aria-labelledby="investment-title">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Explicación para cliente</p>
+                <h2 id="investment-title">¿Qué pasa con el dinero que aporta?</h2>
+              </div>
+              <p id="projectionHorizon">Horizonte: 0 meses</p>
+            </div>
+
+            <div class="story-steps">
+              <div>
+                <span>1</span>
+                <p>El cliente no paga todo hoy.</p>
+                <strong id="investedCapital">$0 MXN</strong>
+              </div>
+              <div>
+                <span>2</span>
+                <p>Pero la plusvalía se calcula sobre todo el valor del depa.</p>
+                <strong id="projectedValueBase">$0 MXN</strong>
+              </div>
+              <div>
+                <span>3</span>
+                <p>Por eso su dinero puede apalancarse.</p>
+                <strong id="plantarReturn">0%</strong>
+              </div>
+            </div>
+
+            <div class="broker-script">
+              <strong>Guión simple:</strong>
+              <p id="brokerScript">
+                Con esta aportación el cliente controla una unidad completa; si el inmueble
+                sube de valor, la ganancia se calcula sobre todo el precio, no solo sobre lo
+                que pagó antes de escriturar.
+              </p>
+            </div>
+
+            <div class="chart-wrap">
+              <div class="chart-title">
+                <span>Ganancia estimada durante el plazo de esta cotización</span>
+                <strong id="plantarGain">$0 MXN</strong>
+              </div>
+              <div class="market-chart" aria-label="Gráfica tipo bolsa de crecimiento proyectado por mes">
+                <svg id="marketChart" viewBox="0 0 720 300" role="img"></svg>
+              </div>
+              <div id="projectionLegend" class="projection-legend"></div>
+              <div id="projectionExplanation" class="projection-explanation"></div>
+            </div>
+
+            <p class="source-note">
+              Gráfica tipo bolsa: cada línea muestra crecimiento estimado por mes dentro del
+              mismo plazo de la cotización seleccionada. Supuestos anuales:
+              Plantar 17.5%, fondos 10%, CETES 7.19%, oro 5.6%.
+              Referencias: CETES/Banxico, S&P 500/Fidelity y retornos históricos de oro.
+              Son referencias comparativas, no garantía de rendimiento.
+            </p>
+          </section>
+        </form>
+
+        <aside class="quote-summary" aria-live="polite">
+          <div>
+            <p class="summary-label">Precio de operación</p>
+            <p id="totalPrice" class="total">$0 MXN</p>
+            <p id="priceNote" class="range">Precio base sin incremento.</p>
+          </div>
+
+          <dl class="breakdown">
+            <div>
+              <dt>Descuento</dt>
+              <dd id="discountOut">$0 MXN</dd>
+            </div>
+            <div>
+              <dt>Apartado</dt>
+              <dd id="reservationOut">$0 MXN</dd>
+            </div>
+            <div>
+              <dt>Enganche a aportar</dt>
+              <dd id="downPaymentOut">$0 MXN</dd>
+            </div>
+            <div>
+              <dt>Aportación total requerida</dt>
+              <dd id="preClosingTarget">$0 MXN</dd>
+            </div>
+            <div>
+              <dt>Monto a diferir</dt>
+              <dd id="financedTotal">$0 MXN</dd>
+            </div>
+            <div>
+              <dt>Mensualidad estimada</dt>
+              <dd id="monthlyPayment">$0 MXN</dd>
+            </div>
+            <div>
+              <dt>Saldo a escrituración</dt>
+              <dd id="closingBalance">$0 MXN</dd>
+            </div>
+          </dl>
+
+          <div class="timeline">
+            <div>
+              <span id="monthCount">0</span>
+              <p>mensualidades</p>
+            </div>
+            <div>
+              <span id="preClosingOut">0%</span>
+              <p>pagado antes de escritura</p>
+            </div>
+          </div>
+
+          <div class="client-box">
+            <label>
+              Nombre del cliente
+              <input id="clientName" type="text" placeholder="Ej. Ana López" />
+            </label>
+            <label>
+              Teléfono o nota
+              <input id="clientContact" type="text" placeholder="Ej. WhatsApp / broker / zona" />
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="copyQuote" type="button">Copiar corrida</button>
+            <a id="whatsappLink" href="#" target="_blank" rel="noreferrer">Enviar por WhatsApp</a>
+          </div>
+
+          <p class="fine-print">
+            Lista tomada de disponibilidad Plantar abril 2026. El cálculo usa mensualidades
+            iguales desde el mes actual hasta el mes de escritura seleccionado. La aportación
+            previa se distribuye entre apartado, enganche y monto diferido.
+          </p>
+        </aside>
+      </section>
+    </main>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
